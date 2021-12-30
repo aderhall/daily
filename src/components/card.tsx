@@ -15,13 +15,14 @@ export function WotdCard({word}: WotdCardProps) {
   let [definition, setDefinition] = useState([]);
   
   useEffect(() => {
-    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`)
+    let actualWord = word.split(/[ (/]/)[0].toLowerCase();
+    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${actualWord}`)
       .then(res => res.json())
       .then(setDefinition);
   }, [word]);
   
   return <Card>
-    <h3 className="font-light text-lg sm:text-xl dark:text-white">
+    <h3 className="font-light text-lg sm:text-xl dark:text-white leading-8">
       Today's word:
       <span className="font-mono text-sky-900 dark:text-white bg-gradient-to-r from-sky-100 to-cyan-50 dark:from-sky-600 dark:to-cyan-500 p-1 rounded sm:text-lg ml-1">
         {word}
@@ -37,47 +38,47 @@ export function WotdCard({word}: WotdCardProps) {
 }
 
 type WotdCardProps = {
-  word: String,
+  word: string,
 }
 
 function Definition({data}: DefinitionProps) {
   return <div className='space-y-3'>
-    {data.map(entry => <>
+    {data.map(entry => <React.Fragment key={JSON.stringify(entry)}>
       <p className="text-gray-800 font-light dark:text-white text-sm sm:text-base">{entry.phonetic}</p>
-      {entry.meanings.map(meaning => <>
+      {entry.meanings.map(meaning => <React.Fragment key={JSON.stringify(meaning)} >
         <p className="italic font-light text-gray-600 dark:text-white text-sm sm:text-base">{meaning.partOfSpeech}</p>
         <ol className="space-y-3 list-decimal pl-5 text-xs font-light dark:text-white">
-          {meaning.definitions.map(definition => <li className="space-y-2">
+          {meaning.definitions.map(definition => <li key={JSON.stringify(definition)} className="space-y-2">
             <p className="font-light text-sm sm:text-base dark:text-white">{definition.definition}</p>
             <p className="text-gray-700 font-medium text-sm sm:text-base dark:text-white">"{definition.example}"</p>
             {definition.synonyms.length > 0 && 
               <p className="space-x-1 space-y-2 flex items-baseline flex-wrap">
                 <span className="text-sky-800 text-xs sm:text-sm dark:text-white">Similar:</span>
-                {definition.synonyms.map(synonym => <span className="py-1 px-2.5 text-xs border dark:border-gray-300 dark:text-white rounded-full from-sky-400 to-cyan-500">{synonym}</span>)}
+                {definition.synonyms.map(synonym => <span key={synonym} className="py-1 px-2.5 text-xs border dark:border-gray-300 dark:text-white rounded-full from-sky-400 to-cyan-500">{synonym}</span>)}
               </p>
             }
           </li>)}
         </ol>
-      </>)}
-    </>)}
+      </React.Fragment>)}
+    </React.Fragment>)}
   </div>
 }
 
 interface DefinitionData {
-  word: String,
-  phonetic: String,
+  word: string,
+  phonetic: string,
   phonetics: {
-    text: String,
-    audio?: String
+    text: string,
+    audio?: string
   }[],
-  origin: String,
+  origin: string,
   meanings: {
-    partOfSpeech: String,
+    partOfSpeech: string,
     definitions: {
-      definition: String,
-      example: String
-      synonyms: String[],
-      antonyms: String[],
+      definition: string,
+      example: string
+      synonyms: string[],
+      antonyms: string[],
     }[]
   }[]
 }
