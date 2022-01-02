@@ -32,7 +32,7 @@ export function WotdCard({word}: WotdCardProps) {
       (definition ? <Definition data={definition} /> : "Loading...")
     }
     <button className="w-full sm:w-auto sm:absolute sm:bottom-0 sm:translate-y-1/2 sm:left-1/2 sm:-translate-x-1/2 bg-white dark:bg-gray-700 sm:px-4 pt-1.5 sm:py-1.5 sm:rounded-full sm:border dark:border-sky-400 sm:shadow-sm space-x-2 cursor-pointer sm:hover:bg-gray-50 dark:sm:hover:bg-sky-400 flex items-center sm:justify-center" onClick={() => setDefinitionExpanded(!definitionExpanded)}>
-      <span className="font-light text-sky-700 sm:text-black dark:text-cyan-300 sm:dark:text-white">{definitionExpanded ? "- Hide definition" : "+ Show definition"}</span>
+      <span className="font-light text-sky-700 sm:text-black dark:text-cyan-300 sm:dark:text-white">{definitionExpanded ? "– Hide definition" : "+ Show definition"}</span>
     </button>
   </Card>
 }
